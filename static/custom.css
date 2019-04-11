@@ -1,0 +1,31 @@
+span.checkpoint_status {
+  display: none !important;
+}
+
+div#header-container.container {
+  background: url(nvidia-banner.png) !important;
+  color: white;
+}
+
+span#notebook_name.filename {
+  margin-top: 12px;
+  margin-left: 50px;
+}
+
+div.cell.text_cell.rendered.selected::before {
+  background-color: #76B900;
+}
+
+a {
+  color: #76B900;
+}
+
+div#ipython_notebook img {
+  width: 100px;
+  padding-left: 100px;
+}
+
+div#ipython_notebook {
+  padding-bottom: 50px
+}
+
