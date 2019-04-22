@@ -10,6 +10,7 @@ RUN source activate $CONDA_ENV && \
     pip install --upgrade pip && \
     pip install ipyvolume \       
         matplotlib \
+        dask_kubernetes \
         jupyter jupyterlab dask-labextension && \
    jupyter labextension install dask-labextension
 
