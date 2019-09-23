@@ -1,18 +1,24 @@
-FROM nvcr.io/nvidia/rapidsai/rapidsai:cuda9.2-runtime-ubuntu16.04
+FROM nvcr.io/nvidia/rapidsai/rapidsai:0.9-cuda10.0-runtime-ubuntu18.04
 
 ENV CONDA_ENV rapids
 
 RUN source activate $CONDA_ENV && \
     apt-get update && \
-    conda install -c conda-forge nodejs unzip python-graphviz && \
-    apt-get install -y --fix-missing font-manager && \
-    rm -rf /var/lib/apt/lists/* && \
+    apt-get install -y screen unzip git vim htop && \
+    rm -rf /var/lib/apt/*
+
+RUN source activate rapids && conda install -y -c conda-forge -c rapidsai nodejs python-graphviz ipywidgets ipyvolume cupy
+
+RUN source activate $CONDA_ENV && \
     pip install --upgrade pip && \
-    pip install ipyvolume \       
-        matplotlib \
-        git+https://github.com/dask/dask-kubernetes.git \
-        jupyter jupyterlab dask-labextension && \
-   jupyter labextension install dask-labextension
+    pip install matplotlib \
+        git+https://github.com/dask/dask-kubernetes.git
+
+RUN source activate $CONDA_ENV && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    jupyter labextension install ipyvolume && \
+    jupyter labextension install jupyter-threejs && \
+    jupyter labextension install dask-labextension
 
 COPY prepare.sh /usr/bin/prepare.sh
 COPY utils /rapids/notebooks/utils
