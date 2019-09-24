@@ -20,11 +20,15 @@ RUN source activate $CONDA_ENV && \
     jupyter labextension install jupyter-threejs && \
     jupyter labextension install dask-labextension
 
+RUN pip install -e "git+https://github.com/supertetelman/rapids.git@k8s#egg=rapids&subdirectory=HPO"
+
 COPY prepare.sh /usr/bin/prepare.sh
 COPY utils /rapids/notebooks/utils
 COPY k8s_examples /rapids/notebooks/k8s_examples
 RUN mkdir -p /root/.jupyter/custom
 COPY static/* /root/.jupyter/custom/
 
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--no-browser", "--NotebookApp.token='dask'"]
+RUN cd /rapids/notebooks/k8s_examples && git clone --depth=1 https://github.com/miroenev/rapids.git /rapids/notebooks/k8s_examples/miro-rapids
+
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--NotebookApp.allow_origin='*'", "--NotebookApp.base_url=''"]
 ENTRYPOINT ["tini", "--", "/usr/bin/prepare.sh"]
