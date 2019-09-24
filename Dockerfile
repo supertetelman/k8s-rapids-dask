@@ -7,7 +7,13 @@ RUN source activate $CONDA_ENV && \
     apt-get install -y screen unzip git vim htop && \
     rm -rf /var/lib/apt/*
 
-RUN source activate rapids && conda install -y -c conda-forge -c rapidsai nodejs python-graphviz ipywidgets ipyvolume cupy
+RUN source activate rapids && \
+    conda install -y -c conda-forge -c rapidsai \
+          nodejs \
+          python-graphviz \
+          ipywidgets \
+          ipyvolume \
+          cupy
 
 RUN source activate $CONDA_ENV && \
     pip install --upgrade pip && \
